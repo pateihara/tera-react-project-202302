@@ -4,6 +4,9 @@ import logo from "../../images/logo.svg";
 export default function Home() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsloading] = useState(true);
+  const [currentUser, setCurrentUser] = useState("");
+
+  console.log("currentUser", currentUser);
 
   useEffect(() => {
     fetch("https://63cf09718a780ae6e6710dbe.mockapi.io/users")
@@ -14,6 +17,9 @@ export default function Home() {
       });
   }, []);
 
+  const hadleUserChange = (event) => setCurrentUser(event.target.value);
+  const handleSubmit = () => console.log("clicando");
+
   return isLoading ? (
     <h1>loading...</h1>
   ) : (
@@ -21,7 +27,8 @@ export default function Home() {
       <div className="home__logo">
         <img src={logo} className="responsive" alt="" />
       </div>
-      <select className="home__select-users">
+      <select onChange={hadleUserChange} className="home__select-users">
+        <option value="">Selecione um usuário</option>
         {users
           .sort((a, b) => a.fn.localeCompare(b.fn))
           .map((user) => (
@@ -30,7 +37,11 @@ export default function Home() {
             </option>
           ))}
       </select>
-      <button className="button-primary">Entrar</button>
+      {!!currentUser && (
+        <button onClick={handleSubmit} className="button-primary">
+          Entrar
+        </button>
+      )}
     </div>
   );
 }
