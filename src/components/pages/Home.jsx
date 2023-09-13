@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import logo from "../../images/logo.svg";
+import { useNavigate } from "react-router-dom";
+import AppLoading from "../organisms/AppLoading";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [isLoading, setIsloading] = useState(true);
   const [currentUser, setCurrentUser] = useState("");
@@ -18,10 +21,12 @@ export default function Home() {
   }, []);
 
   const hadleUserChange = (event) => setCurrentUser(event.target.value);
-  const handleSubmit = () => console.log("clicando");
+  const handleSubmit = () => {
+    navigate(`/users/${currentUser}`);
+  };
 
   return isLoading ? (
-    <h1>loading...</h1>
+    <AppLoading />
   ) : (
     <div className="home center">
       <div className="home__logo">
